@@ -129,7 +129,6 @@ function Game() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        overflow: 'hidden',
         bgcolor: '#f5f7fa',
         p: { xs: 1, sm: 2 },
         position: 'relative',
@@ -144,7 +143,7 @@ function Game() {
           sx={{ fontWeight: 600, borderRadius: 2, bgcolor: '#fff', boxShadow: 1 }}
           onClick={() => setIsTotal(true)}
         >
-          Закончить игру
+          Закінчити гру
         </Button>
         <Button
           variant="outlined"
@@ -153,7 +152,7 @@ function Game() {
           sx={{ fontWeight: 600, borderRadius: 2, bgcolor: '#fff', boxShadow: 1 }}
           onClick={() => { window.location.hash = '#/'; }}
         >
-          На главную
+          На головну
         </Button>
       </Box>
       <Box sx={{ width: '100%', maxWidth: 520, flex: 'none', mt: 2 }}>
@@ -190,7 +189,7 @@ function Game() {
           />
         )}
       </Box>
-      <Box sx={{ width: '100%', maxWidth: 520, flex: 'none', mb: 1 }}>
+      <Box sx={{ width: '100%', maxWidth: 520, flex: 'none', mb: 1, position: 'relative' }}>
         <CorrectAnswer
           year={photoYear}
           title={photoTitle}

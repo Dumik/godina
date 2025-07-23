@@ -43,7 +43,7 @@ export default function BasicTable() {
           sx={{ fontWeight: 700, borderRadius: 2, px: 3 }}
           onClick={() => window.location.hash = '#/game'}
         >
-          Начать новую игру
+          Почати нову гру
         </Button>
         <Button
           variant="outlined"
@@ -52,12 +52,12 @@ export default function BasicTable() {
           sx={{ fontWeight: 700, borderRadius: 2, px: 3 }}
           onClick={() => window.location.hash = '#/'}
         >
-          На главную
+          На головну
         </Button>
       </Box>
       <Paper elevation={4} sx={{ borderRadius: 4, p: 2 }}>
         <Typography variant="h5" align="center" fontWeight={700} mb={2} color="primary.main">
-          Лучшие игроки
+          Результати
         </Typography>
         <TableContainer>
           <Table size="small" aria-label="Таблица лидеров">
@@ -89,7 +89,7 @@ export default function BasicTable() {
                 <TableRow>
                   <TableCell colSpan={3} align="center">
                     <Typography variant="body1" color="text.secondary" sx={{ py: 3 }}>
-                      Пока нет результатов — сыграйте и попадите в топ-10!
+                      Поки немає результатів  - зіграй гру!
                     </Typography>
                   </TableCell>
                 </TableRow>

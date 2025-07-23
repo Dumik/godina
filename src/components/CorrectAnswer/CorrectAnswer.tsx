@@ -25,7 +25,7 @@ function CorrectAnswer({
   const isCorrect = distance === 0;
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 420, mx: 'auto', my: 2 }}>
+    <Box sx={{ width: '100%', mx: 'auto', my: 2, position: 'absolute', bottom: '200px',  bgcolor: '#fff', borderRadius: 3, }}>
       <Card
         elevation={isCorrect ? 8 : 2}
         sx={{

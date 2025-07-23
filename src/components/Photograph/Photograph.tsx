@@ -17,7 +17,6 @@ function Photograph({
   distance,
   getRandomPhoto,
   setIsLoaded,
-  maxHeight = '60vh',
 }: IPhotographProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [imgError, setImgError] = useState(false);
@@ -30,7 +29,17 @@ function Photograph({
   if (!link) return null;
 
   return (
-    <Box sx={{ width: '100%', mx: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center', px: { xs: 0, sm: 2 } }}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        minHeight: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        px: { xs: 0, sm: 2 },
+      }}
+    >
       <Card
         elevation={6}
         sx={{
@@ -40,12 +49,15 @@ function Photograph({
           transition: 'border 0.3s',
           position: 'relative',
           bgcolor: '#fff',
-          overflow: 'hidden',
           p: 0,
           display: 'flex',
-          maxWidth: '100vw',
-          width: '100%',
-          maxHeight,
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 'auto',
+          height: 'auto',
+
+          maxHeight: { xs: '30vh', md: '50vh' },
+
         }}
       >
         {isLoading && !imgError && (
@@ -56,17 +68,16 @@ function Photograph({
         <CardMedia
           component="img"
           image={link}
-          alt="Фото из игры"
+          alt="Game photo"
           sx={{
             width: '100%',
-            height: 'auto',
+            maxWidth: '100%',
+            maxHeight: { xs: '30vh', md: '50vh' },
+            objectFit: 'scale-down',
             display: 'block',
             borderRadius: { xs: 2, sm: 4 },
             opacity: isLoading ? 0 : 1,
             transition: 'opacity 0.3s',
-            maxHeight,
-            maxWidth: '100vw',
-            objectFit: 'contain',
           }}
           onLoad={() => {
             setIsLoading(false);
@@ -79,6 +90,7 @@ function Photograph({
             getRandomPhoto();
           }}
         />
+
         {imgError && (
           <Box sx={{ p: 3, textAlign: 'center', color: 'error.main' }}>
             Не удалось загрузить фото
