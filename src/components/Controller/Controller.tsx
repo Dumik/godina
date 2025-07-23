@@ -43,14 +43,14 @@ function Controller({
       <GameButton
         handleClick={showAnswer}
         isDisabled={isAnswer || userYear === 0}
-        text="Отправить"
+        text="Відправити"
         type="submit"
       />
       {round === 10 ? (
         <GameButton
           handleClick={() => setIsTotal(true)}
           isDisabled={!isAnswer}
-          text="Итог"
+          text="Підсумок"
           type="button"
         />
       ) : (
@@ -60,7 +60,7 @@ function Controller({
             setIsLoaded(false);
           }}
           isDisabled={!isAnswer}
-          text="Далее"
+          text="Далі"
           type="button"
         />
       )}

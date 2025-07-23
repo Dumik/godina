@@ -17,6 +17,7 @@ function Progress({ round, score, seconds, isLoading }: IProgressProps) {
       maxWidth: 480,
       mx: 'auto',
       mb: 2,
+      mt: { xs: 6, md: 0},
       bgcolor: '#fff',
       borderRadius: 3,
       boxShadow: 2,
@@ -27,7 +28,7 @@ function Progress({ round, score, seconds, isLoading }: IProgressProps) {
       gap: 1,
     }}>
       <Typography variant="h6" color="primary.main" fontWeight={700}>
-        Раунд: {round} из 10
+        Раунд: {round} з 10
       </Typography>
       <Box sx={{ width: '100%', mb: 1 }}>
         <LinearProgress
@@ -38,7 +39,7 @@ function Progress({ round, score, seconds, isLoading }: IProgressProps) {
       </Box>
       <Timer seconds={seconds} isLoading={isLoading} />
       <Typography variant="h6" color="text.secondary" fontWeight={600}>
-        Счет: {score}
+        Рахунок: {score}
       </Typography>
     </Box>
   );

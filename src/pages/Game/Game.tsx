@@ -123,12 +123,12 @@ function Game() {
     <Box
       className="game"
       sx={{
-        minHeight: '100vh',
+        height: '100vh',
         width: '100vw',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         overflow: 'hidden',
         bgcolor: '#f5f7fa',
         p: { xs: 1, sm: 2 },
@@ -167,13 +167,13 @@ function Game() {
       <Box
         sx={{
           flex: '1 1 auto',
+          minHeight: 0,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
           maxWidth: 600,
-          minHeight: 180,
-          maxHeight: 600,
+          overflow: 'hidden',
           alignSelf: 'center',
           my: 1,
         }}
@@ -186,6 +186,7 @@ function Game() {
             distance={distance}
             getRandomPhoto={getRandomPhoto}
             setIsLoaded={setIsLoaded}
+            maxHeight="100%"
           />
         )}
       </Box>

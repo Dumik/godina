@@ -35,10 +35,10 @@ function Total({ score, restartGame }: ITotalProps) {
       <Card sx={{ minWidth: 320, maxWidth: 400, mx: 'auto', borderRadius: 4, boxShadow: 6 }}>
         <CardContent>
           <Typography variant="h4" align="center" fontWeight={700} color="primary.main" gutterBottom>
-            Итог: {score} из 1000 баллов
+            Підсумок: {score} із 1000 балів
           </Typography>
           <Typography variant="body1" align="center" color="text.secondary" mb={2}>
-            Введите имя, чтобы сохранить результат и попасть в таблицу лидеров
+            Введіть ім'я, щоб зберегти результат і потрапити до таблиці лідерів
           </Typography>
           <Box component="form"
             onSubmit={(evt) => {
@@ -50,7 +50,7 @@ function Total({ score, restartGame }: ITotalProps) {
           >
             <TextField
               type="search"
-              label="Имя"
+              label="Ім'я"
               variant="filled"
               autoComplete="new-password"
               sx={{
@@ -62,7 +62,7 @@ function Total({ score, restartGame }: ITotalProps) {
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
-            <GameButton text="Новая игра" type="submit" sx={{ width: '100%', maxWidth: 260 }} isDisabled={!value.trim()} />
+            <GameButton text="Нова гра" type="submit" sx={{ width: '100%', maxWidth: 260 }} isDisabled={!value.trim()} />
             <Button
               variant="outlined"
               color="primary"
@@ -73,7 +73,7 @@ function Total({ score, restartGame }: ITotalProps) {
                 window.location.hash = '#/leaders';
               }}
             >
-              Таблица лидеров
+              Таблиця Результатів
             </Button>
           </Box>
         </CardContent>

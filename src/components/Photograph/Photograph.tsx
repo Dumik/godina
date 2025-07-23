@@ -9,6 +9,7 @@ interface IPhotographProps {
   distance: number | null;
   getRandomPhoto: () => void;
   setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  maxHeight?: string;
 }
 
 function Photograph({
@@ -16,6 +17,7 @@ function Photograph({
   distance,
   getRandomPhoto,
   setIsLoaded,
+  maxHeight = '60vh',
 }: IPhotographProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [imgError, setImgError] = useState(false);
@@ -28,11 +30,11 @@ function Photograph({
   if (!link) return null;
 
   return (
-    <Box sx={{ width: '100%', mx: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <Box sx={{ width: '100%', mx: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center', px: { xs: 0, sm: 2 } }}>
       <Card
         elevation={6}
         sx={{
-          borderRadius: 4,
+          borderRadius: { xs: 2, sm: 4 },
           boxShadow: 6,
           border: distance === 0 ? '3px solid #43a047' : '2px solid #e3f0ff',
           transition: 'border 0.3s',
@@ -41,9 +43,9 @@ function Photograph({
           overflow: 'hidden',
           p: 0,
           display: 'flex',
-          maxHeight: '60vh',
-          maxWidth: 600,
+          maxWidth: '100vw',
           width: '100%',
+          maxHeight,
         }}
       >
         {isLoading && !imgError && (
@@ -59,11 +61,11 @@ function Photograph({
             width: '100%',
             height: 'auto',
             display: 'block',
-            borderRadius: 4,
+            borderRadius: { xs: 2, sm: 4 },
             opacity: isLoading ? 0 : 1,
             transition: 'opacity 0.3s',
-            maxHeight: '60vh',
-            maxWidth: '100%',
+            maxHeight,
+            maxWidth: '100vw',
             objectFit: 'contain',
           }}
           onLoad={() => {
