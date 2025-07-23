@@ -1,6 +1,3 @@
-// Масив локальних фото для гри
-// Для кожного фото: src — шлях до фото, year — рік (перші 4 цифри з назви)
-
 import photo2024_4 from '../assets/photos/2024_4.jpg';
 import photo2024_3 from '../assets/photos/2024_3.jpg';
 import photo2024_2 from '../assets/photos/2024_2.jpg';

@@ -43,7 +43,7 @@ function CorrectAnswer({
               <ErrorIcon color="warning" sx={{ fontSize: 32, mr: 1 }} />
             )}
             <Typography variant="h5" fontWeight={700} color={isCorrect ? 'success.main' : 'primary.main'}>
-              {year ? `${year} год` : ''}
+              {year ? `${year} рік` : ' '}
             </Typography>
           </Box>
           {title && (
