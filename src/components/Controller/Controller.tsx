@@ -32,18 +32,6 @@ function Controller({
 }: IControllerProps) {
   return (
     <section className="controller">
-      <p>
-        Ваш ответ:
-        <input
-          type="number"
-          value={userYear.toString()}
-          onChange={(evt) => setUserYear(Number(evt.target.value))}
-          min={1826}
-          max={new Date().getFullYear()}
-          disabled={isAnswer || !isLoaded}
-        />
-        год
-      </p>
       <YearsSlider
         userYear={userYear}
         photoYear={photoYear}

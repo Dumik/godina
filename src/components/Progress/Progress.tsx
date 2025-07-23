@@ -1,5 +1,7 @@
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import LinearProgress from '@mui/material/LinearProgress';
 import Timer from '../Timer/Timer';
-import './Progress.scss';
 
 interface IProgressProps {
   round: number;
@@ -10,11 +12,35 @@ interface IProgressProps {
 
 function Progress({ round, score, seconds, isLoading }: IProgressProps) {
   return (
-    <section className="progress">
-      <h2>{`Раунд: ${round} из 10`}</h2>
+    <Box sx={{
+      width: '100%',
+      maxWidth: 480,
+      mx: 'auto',
+      mb: 2,
+      bgcolor: '#fff',
+      borderRadius: 3,
+      boxShadow: 2,
+      p: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: 1,
+    }}>
+      <Typography variant="h6" color="primary.main" fontWeight={700}>
+        Раунд: {round} из 10
+      </Typography>
+      <Box sx={{ width: '100%', mb: 1 }}>
+        <LinearProgress
+          variant="determinate"
+          value={(round - 1) * 10}
+          sx={{ height: 8, borderRadius: 2, bgcolor: '#e3f0ff', '& .MuiLinearProgress-bar': { bgcolor: 'primary.main' } }}
+        />
+      </Box>
       <Timer seconds={seconds} isLoading={isLoading} />
-      <h2>{`Счет: ${score}`}</h2>
-    </section>
+      <Typography variant="h6" color="text.secondary" fontWeight={600}>
+        Счет: {score}
+      </Typography>
+    </Box>
   );
 }
 

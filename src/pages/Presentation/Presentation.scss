@@ -56,6 +56,208 @@
   }
 }
 
+.presentation.modern {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e3f0ff 0%, #fafcff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+.presentation__card {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.12), 0 1.5px 6px rgba(0,0,0,0.04);
+  padding: 40px 32px 32px 32px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.presentation__icon {
+  margin-bottom: 8px;
+}
+
+.presentation__title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1976d2;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.presentation__subtitle {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.presentation__instruction.modern {
+  font-size: 1rem;
+  color: #444;
+  text-align: center;
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+}
+
+.presentation__card button {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  padding: 12px 32px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.presentation__card button:hover {
+  background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.16);
+}
+
+@media (max-width: 600px) {
+  .presentation__card {
+    padding: 24px 8px 24px 8px;
+    max-width: 98vw;
+  }
+  .presentation__title {
+    font-size: 1.5rem;
+  }
+}
+
+.presentation--full {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #e3f0ff 0%, #fafcff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+.presentation__content {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.presentation__centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 24px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.12), 0 1.5px 6px rgba(0,0,0,0.04);
+  padding: 48px 24px 32px 24px;
+}
+
+.presentation__icon {
+  margin-bottom: 8px;
+}
+
+.presentation__title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #1976d2;
+  margin: 0 0 4px 0;
+  letter-spacing: 1px;
+}
+
+.presentation__subtitle {
+  font-size: 1.3rem;
+  color: #333;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.presentation__instruction.modern {
+  font-size: 1.08rem;
+  color: #444;
+  text-align: center;
+  margin: 0 0 18px 0;
+  line-height: 1.7;
+}
+
+.presentation__centered button {
+  margin-top: 18px;
+  font-size: 1.15rem;
+  padding: 14px 40px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.presentation__centered button:hover {
+  background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.16);
+}
+
+.presentation__photo-mockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.presentation__photo-frame {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10), 0 1.5px 6px rgba(0,0,0,0.04);
+  padding: 12px;
+  max-width: 340px;
+  max-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.presentation__photo-frame img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  max-height: 220px;
+}
+
+.presentation__photo-label {
+  font-size: 1rem;
+  color: #1976d2;
+  font-weight: 600;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 600px) {
+  .presentation__centered {
+    padding: 18px 4px 18px 4px;
+    max-width: 98vw;
+  }
+  .presentation__title {
+    font-size: 1.5rem;
+  }
+  .presentation__photo-frame {
+    max-width: 98vw;
+    padding: 4px;
+  }
+}
+
 // * {
 //   outline: 2px solid red;
 // }

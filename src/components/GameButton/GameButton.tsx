@@ -1,24 +1,36 @@
-import './GameButton.scss';
+import Button from '@mui/material/Button';
+import { SxProps } from '@mui/material';
 
 interface IGameButtonProps {
   handleClick?: () => void;
   text: string;
   type: 'submit' | 'reset' | 'button' | undefined;
   isDisabled?: boolean;
+  sx?: SxProps;
 }
 
-function GameButton({ handleClick, isDisabled, text, type }: IGameButtonProps) {
+function GameButton({ handleClick, isDisabled, text, type, sx }: IGameButtonProps) {
   return (
-    <button
+    <Button
+      variant="contained"
+      color="primary"
+      size="large"
       type={type}
       onClick={handleClick}
       disabled={isDisabled}
-      className="game-button"
+      sx={{
+        borderRadius: 2,
+        fontWeight: 700,
+        fontSize: '1.1rem',
+        textTransform: 'none',
+        boxShadow: 2,
+        px: 4,
+        py: 1.5,
+        ...sx,
+      }}
     >
-      <span className="game-button__shadow" />
-      <span className="game-button__edge" />
-      <span className="game-button__front">{text}</span>
-    </button>
+      {text}
+    </Button>
   );
 }
 

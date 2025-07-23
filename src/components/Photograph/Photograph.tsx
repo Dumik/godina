@@ -1,27 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { Transition } from 'react-transition-group';
-
-import colorGradient from '../../utils/colorGradient';
-
-import './Photograph.scss';
-
-interface TransitionStyles {
-  entering: {
-    opacity: number;
-  };
-  entered: {
-    opacity: number;
-  };
-  exiting: {
-    opacity: number;
-  };
-  exited: {
-    opacity: number;
-  };
-  unmounted?: {
-    opacity: number;
-  };
-}
+import { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface IPhotographProps {
   link: string | null;
@@ -30,75 +11,80 @@ interface IPhotographProps {
   setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const duration = 200;
-
-const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0,
-};
-
-const transitionStyles: TransitionStyles = {
-  entering: { opacity: 1 },
-  entered: { opacity: 1 },
-  exiting: { opacity: 0 },
-  exited: { opacity: 0 },
-};
-
 function Photograph({
   link,
   distance,
   getRandomPhoto,
   setIsLoaded,
 }: IPhotographProps) {
-  const [isTransition, setIsTransition] = useState<boolean>(false);
-
-  const currentImage = useRef<HTMLImageElement>(null);
-
-  function onLoadedPhotograph(isLoaded: boolean): void {
-    setIsLoaded(isLoaded);
-    setIsTransition(isLoaded);
-  }
+  const [isLoading, setIsLoading] = useState(true);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
-    if (currentImage.current !== null && (distance || distance === 0)) {
-      if (distance < 30) {
-        currentImage.current.style.border = `2px solid ${colorGradient[distance]}`;
-      } else {
-        currentImage.current.style.border = `2px solid ${
-          colorGradient[colorGradient.length - 1]
-        }`;
-      }
-    } else if (currentImage.current !== null) {
-      currentImage.current.style.border = 'none';
-    }
-  }, [distance]);
+    setIsLoading(true);
+    setImgError(false);
+  }, [link]);
 
-  if (link) {
-    return (
-      <section className="photograph">
-        <Transition nodeRef={currentImage} in={isTransition} timeout={duration}>
-          {(state) => (
-            <img
-              src={link}
-              alt="Фото из игры"
-              className="photograph__image"
-              ref={currentImage}
-              onError={() => {
-                setIsLoaded(false);
-                getRandomPhoto();
-              }}
-              style={{
-                ...defaultStyle,
-                ...transitionStyles[state],
-              }}
-              onLoad={(e) => onLoadedPhotograph(e.isTrusted)}
-            />
-          )}
-        </Transition>
-      </section>
-    );
-  }
-  return null;
+  if (!link) return null;
+
+  return (
+    <Box sx={{ width: '100%', mx: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Card
+        elevation={6}
+        sx={{
+          borderRadius: 4,
+          boxShadow: 6,
+          border: distance === 0 ? '3px solid #43a047' : '2px solid #e3f0ff',
+          transition: 'border 0.3s',
+          position: 'relative',
+          bgcolor: '#fff',
+          overflow: 'hidden',
+          p: 0,
+          display: 'flex',
+          maxHeight: '60vh',
+          maxWidth: 600,
+          width: '100%',
+        }}
+      >
+        {isLoading && !imgError && (
+          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <CircularProgress color="primary" />
+          </Box>
+        )}
+        <CardMedia
+          component="img"
+          image={link}
+          alt="Фото из игры"
+          sx={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            borderRadius: 4,
+            opacity: isLoading ? 0 : 1,
+            transition: 'opacity 0.3s',
+            maxHeight: '60vh',
+            maxWidth: '100%',
+            objectFit: 'contain',
+          }}
+          onLoad={() => {
+            setIsLoading(false);
+            setIsLoaded(true);
+          }}
+          onError={() => {
+            setIsLoading(false);
+            setImgError(true);
+            setIsLoaded(false);
+            getRandomPhoto();
+          }}
+        />
+        {imgError && (
+          <Box sx={{ p: 3, textAlign: 'center', color: 'error.main' }}>
+            Не удалось загрузить фото
+          </Box>
+        )}
+      </Card>
+    </Box>
+  );
 }
 
 export default Photograph;

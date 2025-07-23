@@ -1,48 +1,52 @@
-import { useNavigate } from 'react-router-dom';
-
-import GameButton from '../../components/GameButton/GameButton';
-
-import './Presentation.scss';
+import { Container, Card, Typography, Box, Button } from '@mui/material';
+import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
 
 function Presentation() {
-  const navigate = useNavigate();
-
   return (
-    <main className="presentation">
-      <h1 className="presentation__title">Игра Godina</h1>
-      <figure className="">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/View_from_the_Window_at_Le_Gras%2C_Joseph_Nic%C3%A9phore_Ni%C3%A9pce%2C_uncompressed_UMN_source.png/1920px-View_from_the_Window_at_Le_Gras%2C_Joseph_Nic%C3%A9phore_Ni%C3%A9pce%2C_uncompressed_UMN_source.png"
-          alt="Вид из окна в Ле Гра"
-          className="presentation__image"
-        />
-        <figcaption className="presentation__description">
-          «Вид из окна в Ле Гра» (фр. Point de vue du Gras) — первая из дошедших
-          до наших дней гелиогравюр. Считается первой в мире фотографией, снятой
-          с натуры. Создана французским изобретателем Жозефом Нисефором Ньепсом
-          в 1826 (по другим данным — в 1827) году на пластинке, покрытой слоем
-          битума.
-          <a
-            className="presentation__wiki"
-            href="https://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%B4_%D0%B8%D0%B7_%D0%BE%D0%BA%D0%BD%D0%B0_%D0%B2_%D0%9B%D0%B5_%D0%93%D1%80%D0%B0#:~:text=Point%20de%20vue%20du%20Gras,%D0%BD%D0%B0%20%D0%BF%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D0%BD%D0%BA%D0%B5%2C%20%D0%BF%D0%BE%D0%BA%D1%80%D1%8B%D1%82%D0%BE%D0%B9%20%D1%81%D0%BB%D0%BE%D0%B5%D0%BC%20%D0%B1%D0%B8%D1%82%D1%83%D0%BC%D0%B0."
+    <Box sx={{ minHeight: '100vh', bgcolor: 'linear-gradient(135deg, #e3f0ff 0%, #fafcff 100%)', py: { xs: 2, sm: 6 } }}>
+      <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <Card elevation={6} sx={{ borderRadius: 4, p: { xs: 2, sm: 4 }, width: '100%', maxWidth: 480, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+            <CameraAltRoundedIcon color="primary" sx={{ fontSize: 56, mb: 1 }} />
+            <Typography variant="h3" color="primary.main" fontWeight={800} align="center" gutterBottom sx={{ letterSpacing: 1, fontSize: { xs: '2rem', sm: '2.5rem' } }}>
+              Godina
+            </Typography>
+            <Typography variant="h6" color="text.primary" fontWeight={700} align="center" gutterBottom>
+              Угадай точный год современной фотографии
+            </Typography>
+          </Box>
+          <Typography variant="body1" color="text.secondary" align="center" sx={{ mb: 1.5 }}>
+            <b>Godina</b> — это быстрая игра на внимательность и память!<br/>
+            Тебе показывают случайную фотографию из XXI века.<br/>
+            Выбери точный год из диапазона <b>2000–2025</b>.<br/>
+            <br/>
+            <b>10 раундов</b> — 10 фото.<br/>
+            За каждый точный ответ — 100 баллов.<br/>
+            В конце ты можешь сохранить свой результат и попасть в <b>топ-10</b> игроков.<br/>
+            <br/>
+            Играй, соревнуйся с друзьями и проверь свою интуицию!
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{ width: '100%', fontWeight: 700, fontSize: '1.1rem', borderRadius: 2, py: 1.5, mt: 1 }}
+            onClick={() => window.location.hash = '#/game'}
           >
-            Википедия
-          </a>
-        </figcaption>
-      </figure>
-      <p className="presentation__instruction">
-        Добро пожаловать в игру, посвященную почти двухсотлетней истории
-        фотографии. Ваша задача - угадать год создания фотографии, используя
-        слайдер. Игра состоит из 10 раундов. После окончания игры вы сможете
-        сохранить свой результат и, если он достаточно высок, попасть в таблицу
-        лучших игроков. Удачи!
-      </p>
-      <GameButton
-        handleClick={() => navigate('/game')}
-        text="Играть"
-        type="button"
-      />
-    </main>
+            Начать игру
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            sx={{ width: '100%', fontWeight: 700, fontSize: '1.1rem', borderRadius: 2, py: 1.5, mt: 2 }}
+            onClick={() => window.location.hash = '#/leaders'}
+          >
+            Таблица лидеров
+          </Button>
+        </Card>
+      </Container>
+    </Box>
   );
 }
 

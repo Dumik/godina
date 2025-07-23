@@ -1,9 +1,6 @@
-import Slider from 'rc-slider';
-
-import UseGetColor from '../../hooks/UseGetColor';
-
-import 'rc-slider/assets/index.css';
-import './YearsSlider.scss';
+import Slider from '@mui/material/Slider';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 interface IYearsSliderProps {
   userYear: number;
@@ -14,6 +11,15 @@ interface IYearsSliderProps {
   isLoaded: boolean;
 }
 
+const minYear = 2000;
+const maxYear = 2025;
+const marks = [
+  { value: 2000, label: '2000' },
+  { value: 2010, label: '2010' },
+  { value: 2020, label: '2020' },
+  { value: 2025, label: '2025' },
+];
+
 function YearsSlider({
   userYear,
   photoYear,
@@ -22,129 +28,71 @@ function YearsSlider({
   setUserYear,
   isLoaded,
 }: IYearsSliderProps) {
-  const todyYear = new Date().getFullYear();
-
-  function getColorRange(): string {
-    if (distance || distance === 0) return UseGetColor(distance);
-
-    return 'none';
-  }
-
-  const handleStyle = {
-    width: '14px',
-    height: '44px',
-    opacity: `${isLoaded ? 1 : 0}`,
-    border: '2px solid hsl(250deg 100% 20%)',
-    borderRadius: 4,
-    marginTop: '-20px',
-    background:
-      'linear-gradient(to left, hsl(250deg 100% 16%) 0%, hsl(250deg 100% 32%) 8%, hsl(250deg 100% 32%) 92%, hsl(250deg 100% 16%) 100%)',
-  };
-
-  if (isAnswer && distance && distance >= 0 && photoYear) {
+  // Відображення для відповіді (disable, два значення)
+  if (isAnswer && photoYear !== null) {
     return (
-      <div className="slider">
-        <p>1826</p>
+      <Box sx={{ width: '100%', px: 2, mt: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+          <Typography variant="body2" color="text.secondary">{minYear}</Typography>
+          <Typography variant="body2" color="text.secondary">{maxYear}</Typography>
+        </Box>
         <Slider
-          range
-          min={1826}
-          max={todyYear}
+          min={minYear}
+          max={maxYear}
           value={[userYear, photoYear]}
-          marks={{
-            1850: 1850,
-            1900: 1900,
-            1950: 1950,
-            2000: 2000,
-          }}
+          marks={marks}
           disabled
-          handleStyle={{
-            background: `${getColorRange()}`,
-            width: '10px',
-            height: '34px',
-            opacity: 1,
-            border: 'none',
-            borderRadius: 0,
-            marginTop: '-15px',
-          }}
-          railStyle={{
-            background: '#fff',
-            display: 'none',
-          }}
-          trackStyle={{
-            background: `${getColorRange()}`,
-            zIndex: 1,
+          valueLabelDisplay="on"
+          sx={{
+            color: distance === 0 ? 'success.main' : 'primary.main',
+            height: 8,
+            borderRadius: 2,
+            '& .MuiSlider-thumb': {
+              width: 24,
+              height: 24,
+              bgcolor: distance === 0 ? 'success.main' : 'primary.main',
+              border: '2px solid #fff',
+            },
+            '& .MuiSlider-markLabel': {
+              fontWeight: 600,
+            },
           }}
         />
-        <p>{new Date().getFullYear()}</p>
-      </div>
+      </Box>
     );
   }
 
-  if (isAnswer && distance === 0 && photoYear) {
-    return (
-      <div className="slider">
-        <p>1826</p>
-        <Slider
-          min={1826}
-          max={todyYear}
-          value={[userYear, photoYear]}
-          marks={{
-            1850: 1850,
-            1900: 1900,
-            1950: 1950,
-            2000: 2000,
-          }}
-          disabled
-          handleStyle={{
-            background: `${getColorRange()}`,
-            width: '14px',
-            height: '44px',
-            opacity: 1,
-            border: 'none',
-            borderRadius: 0,
-            marginTop: '-20px',
-          }}
-          railStyle={{
-            background: '#fff',
-            display: 'none',
-          }}
-          trackStyle={{
-            background: 'none',
-            zIndex: 1,
-          }}
-        />
-        <p>{new Date().getFullYear()}</p>
-      </div>
-    );
-  }
-
+  // Основний режим (одне значення)
   return (
-    <div className="slider">
-      <p>1826</p>
+    <Box sx={{ width: '100%', px: 2, mt: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+        <Typography variant="body2" color="text.secondary">{minYear}</Typography>
+        <Typography variant="body2" color="text.secondary">{maxYear}</Typography>
+      </Box>
       <Slider
-        min={1826}
-        max={new Date().getFullYear()}
+        min={minYear}
+        max={maxYear}
         value={userYear}
-        marks={{
-          1850: 1850,
-          1900: 1900,
-          1950: 1950,
-          2000: 2000,
-        }}
-        startPoint={(1826 + todyYear) / 2}
-        defaultValue={(1826 + todyYear) / 2}
-        onChange={(number) => setUserYear(Number(number))}
-        handleStyle={handleStyle}
-        railStyle={{
-          background: '#fff',
-        }}
-        trackStyle={{
-          background: 'none',
-        }}
+        marks={marks}
+        valueLabelDisplay="on"
+        onChange={(_, value) => setUserYear(Number(value))}
         disabled={!isLoaded}
+        sx={{
+          color: 'primary.main',
+          height: 8,
+          borderRadius: 2,
+          '& .MuiSlider-thumb': {
+            width: 24,
+            height: 24,
+            bgcolor: 'primary.main',
+            border: '2px solid #fff',
+          },
+          '& .MuiSlider-markLabel': {
+            fontWeight: 600,
+          },
+        }}
       />
-      <p>{todyYear}</p>
-    </div>
+    </Box>
   );
 }
 

@@ -7,32 +7,13 @@ import CorrectAnswer from '../../components/CorrectAnswer/CorrectAnswer';
 import Controller from '../../components/Controller/Controller';
 import Preloader from '../../components/Preloader/Preloader';
 import Total from '../../components/Total/Total';
-import apiConfig from '../../utils/apiConfig';
+import { photos } from '../../data/photos';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 import './Game.scss';
 
-// interface IGameProps {
-//   round: number;
-//   score: number;
-//   photoUrl: string | null;
-//   distance: number | null;
-//   photoYear: number | null;
-//   photoTitle: string;
-//   photoRegion: string;
-//   isAnswer: boolean;
-//   userYear: number;
-//   isLoading: boolean;
-//   setUserYear: (value: React.SetStateAction<number>) => void;
-//   setIsTotal: (value: React.SetStateAction<boolean>) => void;
-//   showAnswer: () => void;
-//   getRandomPhoto: () => void;
-//   resetRound: () => void;
-//   seconds: number;
-// }
-
 function Game() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [photoYear, setPhotoYear] = useState<number | null>(null);
   const [photoTitle, setPhotoTitle] = useState<string>('');
@@ -45,14 +26,13 @@ function Game() {
   const [isTotal, setIsTotal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
-  let isPhotoLoaded: boolean = false;
+  const [usedIndexes, setUsedIndexes] = useState<number[]>([]);
 
   function randomInteger(min: number, max: number): number {
-    return Math.round(min + Math.random() * (max - min));
+    return Math.floor(min + Math.random() * (max - min + 1));
   }
 
-  let expiryTimestamp: Date = new Date();
+  const expiryTimestamp: Date = new Date();
   expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 30);
 
   const { seconds, isRunning, pause, restart } = useTimer({
@@ -69,41 +49,29 @@ function Game() {
     getPoints();
   }
 
-  async function getRandomPhoto() {
-    if (isPhotoLoaded) return;
-
-    const randomApi = randomInteger(0, apiConfig.length - 1);
-
-    const { api, minId, maxId } = apiConfig[randomApi];
-
-    try {
-      const { url, year, title, region } = await api.getPhoto(
-        randomInteger(minId, maxId),
-        isPhotoLoaded,
-        randomInteger
-      );
-
-      setPhotoUrl(url);
-      setPhotoYear(year);
-      setPhotoTitle(title);
-      setPhotoRegion(region);
-
-      isPhotoLoaded = true;
-
-      setIsLoading(false);
-
-      expiryTimestamp = new Date();
-      expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 30);
-
-      restart(expiryTimestamp);
-    } catch {
-      getRandomPhoto();
+  function getRandomPhoto() {
+    setIsLoading(true);
+    // Вибираємо фото, яке ще не використовувалося у цій грі
+    let availableIndexes = photos.map((_, idx) => idx).filter(idx => !usedIndexes.includes(idx));
+    if (availableIndexes.length === 0) {
+      // Якщо всі фото використані, починаємо спочатку
+      availableIndexes = photos.map((_, idx) => idx);
+      setUsedIndexes([]);
     }
+    const randomIdx = availableIndexes[randomInteger(0, availableIndexes.length - 1)];
+    const photo = photos[randomIdx];
+    setPhotoUrl(photo.src);
+    setPhotoYear(photo.year);
+    setPhotoTitle(photo.title || '');
+    setPhotoRegion(photo.region || '');
+    setUsedIndexes(prev => [...prev, randomIdx]);
+    setIsLoading(false);
+    const newExpiry = new Date();
+    newExpiry.setSeconds(newExpiry.getSeconds() + 30);
+    restart(newExpiry);
   }
 
   function resetRound() {
-    isPhotoLoaded = false;
-
     setIsLoading(true);
     setPhotoUrl(null);
     setPhotoYear(null);
@@ -111,13 +79,10 @@ function Game() {
     setIsAnswer(false);
     setUserYear(0);
     setRound(round + 1);
-
     getRandomPhoto();
   }
 
   function restartGame() {
-    isPhotoLoaded = false;
-
     setIsLoading(true);
     setPhotoUrl(null);
     setPhotoYear(null);
@@ -127,72 +92,128 @@ function Game() {
     setScore(0);
     setRound(1);
     setDistance(null);
-
+    setUsedIndexes([]);
     getRandomPhoto();
   }
 
   useEffect(() => {
     getRandomPhoto();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     let points = 0;
-
-    if (distance !== null && distance <= 30) {
-      points = Math.round(-0.1 * (distance + 0.5) ** 2 + 100);
+    if (distance !== null && distance === 0) {
+      points = 100;
     }
-
     setScore(score + points);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [distance]);
 
   useEffect(() => {
-    console.log(isRunning);
     if (!isRunning) {
       showAnswer();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning]);
 
   return isTotal ? (
     <Total score={score} restartGame={restartGame} />
   ) : (
-    <main className="game">
-      <Progress
-        round={round}
-        score={score}
-        seconds={seconds}
-        isLoading={isLoading}
-      />
-      {isLoading ? (
-        <Preloader />
-      ) : (
-        <Photograph
-          link={photoUrl}
-          distance={distance}
-          getRandomPhoto={getRandomPhoto}
-          setIsLoaded={setIsLoaded}
+    <Box
+      className="game"
+      sx={{
+        minHeight: '100vh',
+        width: '100vw',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        overflow: 'hidden',
+        bgcolor: '#f5f7fa',
+        p: { xs: 1, sm: 2 },
+        position: 'relative',
+      }}
+    >
+      {/* Кнопки у правому верхньому куті */}
+      <Box sx={{ position: 'fixed', top: 16, right: 24, zIndex: 1000, display: 'flex', gap: 2 }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          sx={{ fontWeight: 600, borderRadius: 2, bgcolor: '#fff', boxShadow: 1 }}
+          onClick={() => setIsTotal(true)}
+        >
+          Закончить игру
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          size="small"
+          sx={{ fontWeight: 600, borderRadius: 2, bgcolor: '#fff', boxShadow: 1 }}
+          onClick={() => { window.location.hash = '#/'; }}
+        >
+          На главную
+        </Button>
+      </Box>
+      <Box sx={{ width: '100%', maxWidth: 520, flex: 'none', mt: 2 }}>
+        <Progress
+          round={round}
+          score={score}
+          seconds={seconds}
+          isLoading={isLoading}
         />
-      )}
-      <CorrectAnswer
-        year={photoYear}
-        title={photoTitle}
-        region={photoRegion}
-        distance={distance}
-        isAnswer={isAnswer}
-      />
-      <Controller
-        userYear={userYear}
-        photoYear={photoYear}
-        isAnswer={isAnswer}
-        distance={distance}
-        round={round}
-        setUserYear={setUserYear}
-        setIsTotal={setIsTotal}
-        showAnswer={showAnswer}
-        resetRound={resetRound}
-        isLoaded={isLoaded}
-        setIsLoaded={setIsLoaded}
-      />
-    </main>
+      </Box>
+      <Box
+        sx={{
+          flex: '1 1 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          maxWidth: 600,
+          minHeight: 180,
+          maxHeight: 600,
+          alignSelf: 'center',
+          my: 1,
+        }}
+      >
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <Photograph
+            link={photoUrl}
+            distance={distance}
+            getRandomPhoto={getRandomPhoto}
+            setIsLoaded={setIsLoaded}
+          />
+        )}
+      </Box>
+      <Box sx={{ width: '100%', maxWidth: 520, flex: 'none', mb: 1 }}>
+        <CorrectAnswer
+          year={photoYear}
+          title={photoTitle}
+          region={photoRegion}
+          distance={distance}
+          isAnswer={isAnswer}
+        />
+        <Box sx={{ mt: 2, mb: 2 }}>
+          <Controller
+            userYear={userYear}
+            photoYear={photoYear}
+            isAnswer={isAnswer}
+            distance={distance}
+            round={round}
+            setUserYear={setUserYear}
+            setIsTotal={setIsTotal}
+            showAnswer={showAnswer}
+            resetRound={resetRound}
+            isLoaded={isLoaded}
+            setIsLoaded={setIsLoaded}
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
