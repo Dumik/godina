@@ -1,12 +1,22 @@
-import { Container, Card, Typography, Box, Button } from '@mui/material';
+import {
+  Container,
+  Card,
+  Typography,
+  Box,
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from '@mui/material';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function Presentation() {
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        bgcolor: 'linear-gradient(135deg, #fff0f5 0%, #fdfcff 100%)', // романтичні пастельні кольори
+        bgcolor: 'linear-gradient(135deg, #fff0f5 0%, #fdfcff 100%)',
         py: { xs: 3, sm: 6 },
       }}
     >
@@ -65,8 +75,50 @@ function Presentation() {
             що залишили слід у памʼяті вас і ваших близьких.
             <br />
             <br />
-            <i>Любимо вас  💖</i>
+            <i>Любимо вас 💖</i>
           </Typography>
+
+          {/* Акардеон з правилами */}
+          <Accordion
+            elevation={0}
+            sx={{
+              width: '100%',
+              bgcolor: 'transparent',
+              border: '1px solid #f3cbd3',
+              borderRadius: 2,
+              mt: -1,
+            }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon color="primary" />}>
+              <Typography
+                sx={{ fontWeight: 700, color: 'primary.main' }}
+              >
+                📜 Правила гри
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ textAlign: 'left', fontSize: '0.95rem', lineHeight: 1.6 }}
+              >
+              Гра на інтуїцію та памʼять:
+                <br /><br />
+              • Вам показують випадкову фотографію з періоду <b>2000–2025</b> року.
+                <br />
+              • Потрібно обрати, в якому саме році вона була зроблена.
+                <br />
+              • Усього <b>10 раундів</b>, кожне фото — новий виклик.
+                <br />
+              • За правильну відповідь — <b>100 балів</b>.
+                <br />
+              • У фіналі — можливість зберегти свій результат і потрапити до <b>топ-10</b> гравців!
+                <br />
+              • <b>Щораз у новій грі — інші фотографії</b>, тож кожна спроба — нове випробування.
+              </Typography>
+            </AccordionDetails>
+
+          </Accordion>
 
           {/* Кнопки */}
           <Box sx={{ width: '100%' }}>
